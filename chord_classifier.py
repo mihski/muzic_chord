@@ -9,7 +9,7 @@ from sklearn.metrics import classification_report
 DATA_DIR = "data"  # Папка с подпапками аккордов
 
 def extract_features(file_path):
-    y, sr = librosa.load(file_path, duration=3)
+    y, sr = librosa.load(file_path, duration=5)
     mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
     return np.mean(mfcc.T, axis=0)
 

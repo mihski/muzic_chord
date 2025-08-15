@@ -13,8 +13,15 @@ for root, dirs, files in os.walk(base_dir):
 
             # Конвертация через FFmpeg
             ffmpeg_path = r"C:\ffmpeg\bin\ffmpeg.exe"
-            subprocess.run([
-                ffmpeg_path, "-y", "-i", m4a_path, wav_path
-            ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            result = subprocess.run(
+                [ffmpeg_path, "-y", "-i", m4a_path, wav_path],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL
+            )
 
-            print(f"✅ Конвертировано: {m4a_path} → {wav_path}")
+            if result.returncode == 0:
+                # Удаляем исходный файл .m4a после успешной конвертации
+                os.remove(m4a_path)
+                print(f"✅ Конвертировано и удалено: {m4a_path} → {wav_path}")
+            else:
+                print(f"❌ Ошибка при конвертации: {m4a_path}")
